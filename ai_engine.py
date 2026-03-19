@@ -26,28 +26,64 @@ class AIEngine:
     def generate_training_module(self, sop_text: str) -> dict:
         """Sends the SOP to Gemini and returns a structured JSON dictionary."""
         prompt = f"""
-        Act as an expert corporate trainer. Analyze the following Standard Operating Procedure (SOP) and generate a training module.
-        You MUST return ONLY a valid JSON object. Do not include markdown formatting like ```json or ```.
+        Act as an expert Corporate Instructional Designer. Analyze the following Standard Operating Procedure (SOP) and engineer a high-impact training module.
+        You MUST return ONLY a valid JSON object. Do not include markdown formatting.
         
         Required JSON Structure:
         {{
-            "title": "A short title for the SOP",
-            "summary": "A 2-3 sentence overview.",
-            "steps": ["Step 1 description", "Step 2 description", "Step 3 description"],
-            "quiz": [
+            "metadata": {{
+                "title": "A highly professional title for the SOP",
+                "estimated_time_minutes": "Estimated time to complete this process (integer)",
+                "complexity": "Beginner, Intermediate, or Advanced",
+                "tools_required": ["List of any software, tools, or physical items needed"]
+            }},
+            "executive_summary": "A sharp, 2-sentence business overview of why this SOP exists.",
+            "phases": [
                 {{
-                    "question": "A multiple choice question about the SOP",
-                    "options": ["Option A", "Option B", "Option C", "Option D"],
-                    "answer": "The exact string of the correct option"
+                    "phase_name": "Name of the phase (e.g., Preparation, Execution)",
+                    "steps": ["Step 1", "Step 2"],
+                    "critical_warning": "One major mistake to avoid in this phase (if any)"
+                }}
+            ],
+            "scenario_quiz": [
+                {{
+                    "scenario": "A brief, realistic 2-sentence real-world situation where things go wrong or a decision is needed based on the SOP.",
+                    "question": "What is the correct action to take?",
+                    "options": ["A", "B", "C", "D"],
+                    "answer": "The exact string of the correct option",
+                    "explanation": "A 1-sentence explanation of WHY this is the right answer."
                 }}
             ]
         }}
         
-        Ensure there are exactly 3 quiz questions.
+        Ensure there are exactly 3 scenario-based questions.
         
-        SOP Text to analyze:
+        SOP Text:
         {sop_text}
         """
+        # prompt = f"""
+        # Act as an expert corporate trainer. Analyze the following Standard Operating Procedure (SOP) and generate a training module.
+        # You MUST return ONLY a valid JSON object. Do not include markdown formatting like ```json or ```.
+        
+        # Required JSON Structure:
+        # {{
+        #     "title": "A short title for the SOP",
+        #     "summary": "A 2-3 sentence overview.",
+        #     "steps": ["Step 1 description", "Step 2 description", "Step 3 description"],
+        #     "quiz": [
+        #         {{
+        #             "question": "A multiple choice question about the SOP",
+        #             "options": ["Option A", "Option B", "Option C", "Option D"],
+        #             "answer": "The exact string of the correct option"
+        #         }}
+        #     ]
+        # }}
+        
+        # Ensure there are exactly 3 quiz questions.
+        
+        # SOP Text to analyze:
+        # {sop_text}
+        # """
         
         try:
             response = self.model.generate_content(prompt)
